@@ -130,34 +130,6 @@ namespace ConsoleTamagotchiApp.WebServices
             }
         }
 
-        public async Task<PlayerDTO> SignUpAsync(PlayerDTO player1)
-        {
-            try
-            {
-                string jason = JsonSerializer.Serialize(player1);
-                StringContent content = new StringContent(jason, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this.client.PostAsync($"{this.baseUri}/SignUp", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    JsonSerializerOptions options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    string content2 = await response.Content.ReadAsStringAsync();
-                    PlayerDTO p = JsonSerializer.Deserialize<PlayerDTO>(content2, options);
-                    return p;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
         public async Task<bool> DoActionFeedAsync(ActionOptionDTO actionOptionDTO)
         {
             //Set URI to the specific function API
@@ -182,7 +154,6 @@ namespace ConsoleTamagotchiApp.WebServices
                 return false;
             }
         }
-
 
         public async Task<List<PetDTO>> GetPlayerPetsAsync()
         {
@@ -211,28 +182,6 @@ namespace ConsoleTamagotchiApp.WebServices
             }
         }
 
-        public async Task UpdateAsync(PlayerDTO player)
-        {    
-            try
-            {
-                string json = JsonSerializer.Serialize(player);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await this.client.PostAsync($"{this.baseUri}/Update", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    JsonSerializerOptions options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    string contentt = await response.Content.ReadAsStringAsync();
-                    PlayerDTO p = JsonSerializer.Deserialize<PlayerDTO>(contentt, options);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
         public async Task<PlayerDTO> LoginAsync(string email, string pass)
         {
             try
